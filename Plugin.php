@@ -24,7 +24,7 @@ class Plugin extends PluginBase
             'name'        => 'manogi.mediathumb::lang.plugin.name',
             'description' => 'manogi.mediathumb::lang.plugin.description',
             'author'      => 'Manogi',
-            'icon'        => 'icon-file'
+            'icon'        => 'icon-compress'
         ];
     }
 
