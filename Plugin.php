@@ -21,8 +21,8 @@ class Plugin extends PluginBase
     public function pluginDetails()
     {
         return [
-            'name'        => 'manogi.mediathumb::lang.plugin.name',
-            'description' => 'manogi.mediathumb::lang.plugin.description',
+            'name'        => 'Mediathumb',
+            'description' => 'Twig filter for automatic thumbnail images for your media images.',
             'author'      => 'manogi',
             'icon'        => 'icon-compress'
         ];
