@@ -5,6 +5,7 @@ use System\Classes\PluginBase;
 use App;
 use Storage;
 use Intervention\Image\ImageManagerStatic as Image;
+use Cms\Classes\MediaLibrary;
 
 
 /**
@@ -40,31 +41,26 @@ class Plugin extends PluginBase
     public function mediathumb_resize($img, $mode='auto', $size=200, $quality=90)
     {   
 
+        $disk = config('cms.storage.media.disk');
+        $disk_folder = config('cms.storage.media.folder');
+        $disk_path = config('cms.storage.media.path');
+        
         // Add slash at the beginning if omitted
         if(substr($img, 0, 1) != '/'){
-            $img = '/'.$img;
+          $img = '/'.$img;
         }
-
-        // define complete path of original for Storage (without the root path)
-        $original_path = 'media'.$img;
-
+        $original_path = $disk_folder.$img;
+        
         // return empty String if file does not exist
-        if(!Storage::exists($original_path)){
+        if(!Storage::disk($disk)->exists($original_path)){
             return '';
         }
         
-        // define complete path of original for Intervention and vanilla PHP (including the root path)
-        $root_original_path = storage_path().'/app/'.$original_path;
-
-        // check if image is a PNG, JPG or Gif, otherwise return empty String
-        $allowed_types = array(IMAGETYPE_PNG, IMAGETYPE_JPEG, IMAGETYPE_GIF);
-        $detected_type = exif_imagetype($root_original_path);
-        if(!in_array($detected_type, $allowed_types)){
-            return '';
-        }
+        // get the image as data
+        $original_file = Storage::disk($disk)->get($original_path);
 
         // define directory for thumbnail
-        $thumb_directory = 'mediathumbs/';
+        $thumb_directory = $disk_folder.'/_mediathumbs/';
 
         // make new filename for folder names and filename
         $new_filename = str_replace('/', '-', substr($img, 1));
@@ -81,8 +77,8 @@ class Plugin extends PluginBase
         // get filesize and filetime for extending the filename for the purpose of
         // creating a new thumb in case a new file with the same name is uploaded
         // (meaning the orginal file is overwritten)
-        $filesize = Storage::size($original_path);
-        $filetime = Storage::lastModified($original_path);
+        $filesize = Storage::disk($disk)->size($original_path);
+        $filetime = Storage::disk($disk)->lastModified($original_path);
 
         // make the string to add to the filname to for 2 purposes:
         // A) to make sure the that for the SAME image a thumbnail is only generated once
@@ -95,23 +91,22 @@ class Plugin extends PluginBase
         // define complete path of the new file (without the root path)
         $new_path = $thumb_directory.$new_filename;
 
-        // define complete path of the new file (including the root path)
-        $root_new_path = storage_path().'/app/'.$new_path;
-
+        
         // create the thumb directory if it does not exist
-        if(!Storage::exists($thumb_directory)){
-            Storage::makeDirectory($thumb_directory);
+        if(!Storage::disk($disk)->exists($thumb_directory)){
+            Storage::disk($disk)->makeDirectory($thumb_directory);
         }
         
         // create the thumb, but only if it does not exist
-        if(!Storage::exists($new_path)){
-            $image = Image::make($root_original_path);
+        if(!Storage::disk($disk)->exists($new_path)){
+
+            $image = Image::make($original_file);
             
             $final_mode = $mode;
             if($mode == 'auto'){
                 $final_mode = 'width';
-                $sizes = getimagesize($root_original_path);
-                $ratio = $sizes[0]/$sizes[1];
+                
+                $ratio = $image->width()/$image->height();
                 if($ratio < 1){
                     $final_mode = 'height';
                 }
@@ -128,11 +123,12 @@ class Plugin extends PluginBase
                     $constraint->upsize();
                 });
             }
-            $image->save($root_new_path, $quality);
+            $image_stream = $image->stream($extension, $quality);
+            Storage::disk($disk)->put($new_path, $image_stream->__toString());
            
         }
 
-        return '/storage/app/mediathumbs/'.$new_filename;
+        return $disk_path.'/_mediathumbs/'.$new_filename;
 
 
     }
