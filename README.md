@@ -41,7 +41,7 @@ The plugin uses the filetime and filesize in naming the thumbnail to make sure t
 
 ## Where are the thumbnails stored?
 
-In the folder "medialthumbs" in your "storage/app" folder.
+In the folder "mediathumbs" in your "storage/app" folder.
 
 ## What happens to the thumbnail files once I delete the original?
 
