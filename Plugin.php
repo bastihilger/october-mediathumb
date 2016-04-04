@@ -37,7 +37,7 @@ class Plugin extends PluginBase
         ];
     }
 
-    public function mediathumb_resize($img, $mode='auto', $length='200', $quality=90)
+    public function mediathumb_resize($img, $mode='auto', $size=200, $quality=90)
     {   
 
         // Add slash at the beginning if omitted
@@ -87,7 +87,7 @@ class Plugin extends PluginBase
         // make the string to add to the filname to for 2 purposes:
         // A) to make sure the that for the SAME image a thumbnail is only generated once
         // b) to make sure that a new thumb is generated if the original is overwritten
-        $version_string = $mode.'-'.$length.'-'.$quality.'-'.$filesize.'-'.$filetime;
+        $version_string = $mode.'-'.$size.'-'.$quality.'-'.$filesize.'-'.$filetime;
 
         // create the complete new filename and hash the version string to make it shorter
         $new_filename = $filename_body.'-'.md5($version_string).'.'.$extension;
@@ -117,13 +117,13 @@ class Plugin extends PluginBase
                 }
             }
             if($final_mode == 'width'){
-                $image->resize($length, null, function ($constraint) {
+                $image->resize($size, null, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
             }
             elseif($final_mode == 'height'){
-                $image->resize(null, $length, function ($constraint) {
+                $image->resize(null, $size, function ($constraint) {
                     $constraint->aspectRatio();
                     $constraint->upsize();
                 });
