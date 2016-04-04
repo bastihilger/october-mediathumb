@@ -23,7 +23,7 @@ class Plugin extends PluginBase
         return [
             'name'        => 'manogi.mediathumb::lang.plugin.name',
             'description' => 'manogi.mediathumb::lang.plugin.description',
-            'author'      => 'Manogi',
+            'author'      => 'manogi',
             'icon'        => 'icon-compress'
         ];
     }
