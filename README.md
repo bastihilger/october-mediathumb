@@ -29,3 +29,8 @@ Creates and displays a 400px high thumbnail image, no matter if the original is 
     <img src="{{ 'path/to/image.jpg'|mediathumb_resize('width', 800, 96) }}">
 
 Creates and displays a 800px wide thumbnail image with a quality of 96, no matter if the original is a landscape or a portrait image. 
+
+## How does it work:
+
+The plugin checks if a thumbnail for the original image was already created - if not, it creates the thumbnail.  
+Then the thumbnail path is returned.
