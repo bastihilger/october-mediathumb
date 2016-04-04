@@ -34,3 +34,15 @@ Creates and displays a 800px wide thumbnail image with a quality of 96, no matte
 
 The plugin checks if a thumbnail for the original image was already created - if not, it creates the thumbnail.  
 Then the thumbnail path is returned.
+
+## What if I overwrite the original with a altered version?
+
+The plugin uses the filetime and filesize in naming the thumbnail to make sure that altered images with the same name don't produce old thumbnails.
+
+## Where are the thumbnails stored?
+
+In the folder "medialthumbs" in your "storage/app" folder.
+
+## What happens to the thumbnail files once I delete the original?
+
+So far they just stay in the "mediathumbs" folder. I am working on a solution to have them deleted together with the originals, but remember you can easily empty or delete the mediathumbs folder altogether - the thumbnails will just start being re-created when people hit your website.
