@@ -41,8 +41,12 @@ The plugin uses the filetime and filesize in naming the thumbnail to make sure t
 
 ## Where are the thumbnails stored?
 
-In the "storage/app/mediathumbs" folder (which is created automatically).
+In a "_mediathumbs" (which is created automatically) folder in your storage media folder.
+
+## Does it work with Amazon S3?
+
+Yep.
 
 ## What happens to the thumbnail files once I delete the original?
 
-So far they just stay in the "mediathumbs" folder. I am working on a solution to have them deleted together with the originals, but remember you can easily empty or delete the mediathumbs folder altogether - the thumbnails will just start being re-created when people hit your website.
+So far they just stay in the "_mediathumbs" folder. I am working on a solution to have them deleted together with the originals, but remember you can easily empty or delete the mediathumbs folder altogether - the thumbnails will just start being re-created when people hit your website.
