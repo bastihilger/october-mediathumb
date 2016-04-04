@@ -1,4 +1,4 @@
-<?php namespace Manogi\Mediathumb;
+<?php namespace manogi\Mediathumb;
 
 use Backend;
 use System\Classes\PluginBase;
