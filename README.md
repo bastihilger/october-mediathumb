@@ -7,4 +7,4 @@ After installing the plugin you can use the new filter like this in other plugin
 
 The filter supports three arguments:
 
-* #mode#: tets
+* _mode_: tets
