@@ -2,13 +2,13 @@
 + Twig filter for automatic thumbnail images for your media images.
 + Static PHP helper function for automatic thumbnail images for your media images in your backend files.
 
-After installing the plugin you can use the new filter like this:
+After installing the plugin you can use the new filter...
 
-+ As a Twig filter in other plugins or in your theme files
+...as a Twig filter in other plugins or in your theme files
 
     <img src="{{ 'path/to/image.jpg'|mediathumb_resize(mode, size, quality) }}">
 
-+ As a static PHP helper function in your backend PHP and .htm files
+... as a static PHP helper function in your backend PHP and .htm files
 
     <img src="<?= mediathumbGetThumb('path/to/image.jpg', mode, size, quality) ?>">
 
