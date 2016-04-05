@@ -81,4 +81,11 @@ Yep.
 
 So far they just stay in the "_mediathumbs" folder. I am working on a solution to have them deleted together with the originals, but remember you can easily empty or delete the mediathumbs folder altogether - the thumbnails will just start being re-created when people hit your website.
 
+## Roadmap
+
++ Adding a `mediathumb_square` filter for creating automatic square thumbs.
+
++ ... (let me know if you have feature requests. No promises, though...)
+
+
 
