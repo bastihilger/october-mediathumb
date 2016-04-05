@@ -4,11 +4,11 @@
 
 After installing the plugin you can use the new filter...
 
-...as a Twig filter in other plugins or in your theme files
+...as a Twig filter in other plugins or in your theme files:
 
     <img src="{{ 'path/to/image.jpg'|mediathumb_resize(mode, size, quality) }}">
 
-... as a static PHP helper function in your backend PHP and .htm files
+... as a static PHP helper function in your backend PHP and .htm files:
 
     <img src="<?= mediathumbGetThumb('path/to/image.jpg', mode, size, quality) ?>">
 
@@ -42,15 +42,15 @@ Creates and displays a 400px high thumbnail image, no matter if the original is 
 Creates and displays a 800px wide thumbnail image with a quality of 96, no matter if the original is a landscape or a portrait image. 
 
 
-### static PHP helper function (backend code)
+### Static PHP helper function (backend code)
 
-The static PHP helper function needs the image path as a string as the first argument. You can use it for example when you display a list of items in the backend, using the default $record variable you get when using the default October CMS $this->listRender() function:
+The static PHP helper function needs the image path as a string as the first argument. You can use it for example when you display a list of items in the backend, using the default `$record` variable you get when using the default October CMS `$this->listRender()` function:
 
     <img src="<?= mediathumbGetThumb($record->image, 'height', 180, 96) ?>">
 
 Creates and displays a 180px high thumbnail image, no matter if the original is a landscape or a portrait image.
 
-While of course "$record->image" might be something else in your case. "image" is here the name of the field you store your image in.
+While of course `$record->image` might be something else in your case. "image" is here the name of the field you store your image in.
 
 You can of course also use the defaults like so:
 
