@@ -2,7 +2,9 @@
 
 use Intervention\Image\ImageManagerStatic as Image;
 
-function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null)
+// Get the thumb.
+
+function getMediathumb($img, $mode=null, $size=null, $quality=null)
 {   
     if(!$mode){
         $mode = config('manogi.mediathumb::default.mode');
@@ -103,4 +105,12 @@ function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null)
     }
 
     return $disk_path.'/_mediathumbs/'.$new_filename;
+}
+
+
+// Alias for getMediathumb()
+
+function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null)
+{   
+    return getMediathumb($img, $mode, $size, $quality);
 }
