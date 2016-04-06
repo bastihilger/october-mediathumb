@@ -1,8 +1,11 @@
 # october-mediathumb
+
+[Here you can find this plugin in the October CMS PLugins page](http://octobercms.com/plugin/manogi-mediathumb).
+
 + Twig filter for automatic thumbnail images for your media images.
 + Static PHP helper function for automatic thumbnail images for your media images in your backend files.
 
-After installing the plugin you can use the new filter...
+After installing the plugin you can use it...
 
 ...as a Twig filter in other plugins or in your theme files:
 
