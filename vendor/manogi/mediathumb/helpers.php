@@ -4,7 +4,7 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 // Get the thumb.
 
-function getMediathumb($img, $mode=null, $size=null, $quality=null)
+function getMediathumb($img, $mode=null, $size=null, $quality=null, $except=null)
 {   
     if(!$mode){
         $mode = config('manogi.mediathumb::default.mode');
@@ -46,6 +46,16 @@ function getMediathumb($img, $mode=null, $size=null, $quality=null)
 
     //get the extension
     $extension = substr($new_filename, $last_dot_position+1);
+
+    // return original if extension is among $except
+    if($except){
+        $except_extensions = explode(',', $except);
+        foreach($except_extensions as $except_extension){
+            if(trim(strtolower($except_extension)) == strtolower($extension)){
+                return $disk_path.$img;
+            }
+        }
+    }
 
     //get the new filename without extension
     $filename_body = substr($new_filename, 0, $last_dot_position);
@@ -110,7 +120,7 @@ function getMediathumb($img, $mode=null, $size=null, $quality=null)
 
 // Alias for getMediathumb()
 
-function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null)
+function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null, $except=null)
 {   
-    return getMediathumb($img, $mode, $size, $quality);
+    return getMediathumb($img, $mode, $size, $quality, $except);
 }

@@ -39,9 +39,9 @@ class Plugin extends PluginBase
         ];
     }
 
-    public function mediathumb_resize($img, $mode=null, $size=null, $quality=null)
+    public function mediathumb_resize($img, $mode=null, $size=null, $quality=null, $except=null)
     {   
-        return mediathumbGetThumb($img, $mode, $size, $quality);
+        return mediathumbGetThumb($img, $mode, $size, $quality, $except);
     }
 
 
