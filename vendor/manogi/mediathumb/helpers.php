@@ -6,6 +6,11 @@ use Intervention\Image\ImageManagerStatic as Image;
 
 function getMediathumb($img, $mode=null, $size=null, $quality=null)
 {   
+    // return empty String if $img is falsy
+    if(!$img){
+        return '';
+    }
+
     if(!$mode){
         $mode = config('manogi.mediathumb::default.mode');
     }

@@ -2,3 +2,4 @@
 0.0.1: Added Amazon S3 support
 0.1.0: Added config/config.php file for setting defaults and added backend support (major change, please see documentation)
 0.2.0: Renamed the helper function getMediathumb(). Left an alias for mediathumbGetThumb() to prevent breaking change.
+0.2.1: Fixed an error when an empty string was passed as image path.
