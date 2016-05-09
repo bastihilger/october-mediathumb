@@ -1,8 +1,8 @@
 <?php
 
 return [
-     'plugin' => [
-        'name' => 'Mediathumb Plugin',
-        'description' => 'Přidává nový Twig filtr mediathumb',
-    ],
+    'plugin' => [
+        'name' => 'Mediathumb',
+        'description' => 'Přidává nový Twig filtr mediathumb.'
+    ]
 ];

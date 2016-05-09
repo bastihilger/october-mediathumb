@@ -9,25 +9,20 @@ use Config;
  */
 class Plugin extends PluginBase
 {
-
     /**
      * Returns information about this plugin.
      *
      * @return array
      */
-
-    
-
     public function pluginDetails()
     {
         return [
-            'name'        => 'Mediathumb',
-            'description' => 'Twig filter for automatic thumbnail images for your media images.',
+            'name'        => 'manogi.mediathumb::lang.plugin.name',
+            'description' => 'manogi.mediathumb::lang.plugin.description',
             'author'      => 'manogi',
-            'icon'        => 'icon-compress'
+            'icon'        => 'icon-compress',
+            'homepage'    => 'https://github.com/manogi/october-mediathumb'
         ];
-
-
     }
 
     public function registerMarkupTags()
@@ -39,10 +34,8 @@ class Plugin extends PluginBase
         ];
     }
 
-    public function mediathumb_resize($img, $mode=null, $size=null, $quality=null)
+    public function mediathumb_resize($img, $mode = null, $size = null, $quality = null)
     {   
         return mediathumbGetThumb($img, $mode, $size, $quality);
     }
-
-
 }

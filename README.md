@@ -3,7 +3,7 @@
 + Twig filter for automatic thumbnail images for your media images.
 + Static PHP helper function for automatic thumbnail images for your media images in your backend files.
 
-You can find this plugin in the October CMS Plugins page [here](http://octobercms.com/plugin/manogi-mediathumb).
+You can find this plugin in the OctoberCMS Plugins page [here](http://octobercms.com/plugin/manogi-mediathumb).
 
 After installing the plugin you can use it...
 
@@ -47,7 +47,7 @@ Creates and displays a 800px wide thumbnail image with a quality of 96, no matte
 
 ### Static PHP helper function (backend code)
 
-The static PHP helper function needs the image path as a string as the first argument. You can use it for example when you display a list of items in the backend, using the default `$record` variable you get when using the default October CMS `$this->listRender()` function:
+The static PHP helper function needs the image path as a string as the first argument. You can use it for example when you display a list of items in the backend, using the default `$record` variable you get when using the default OctoberCMS `$this->listRender()` function:
 
     <img src="<?= getMediathumb($record->image, 'height', 180, 96) ?>">
 
@@ -87,8 +87,4 @@ So far they just stay in the "_mediathumbs" folder. I am working on a solution t
 ## Roadmap
 
 + Adding a `mediathumb_square` filter for creating automatic square thumbs.
-
 + ... (let me know if you have feature requests. No promises, though...)
-
-
-
