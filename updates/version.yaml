@@ -5,3 +5,4 @@
 0.2.1: Fixed an error when an empty string was passed as image path.
 0.2.2: cs_CZ language added - thanks to Vojta Svoboda
 0.2.3: Hungarian language added and minor typos corrected - thanks to Szabó Gergő
+0.2.4: Added MIT lincence - thanks to Szabó Gergő
