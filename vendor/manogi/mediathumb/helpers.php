@@ -1,6 +1,7 @@
 <?php 
 
 use Intervention\Image\ImageManagerStatic as Image;
+use Cms\Classes\MediaLibrary;
 
 // Get the thumb.
 
@@ -28,7 +29,6 @@ function getMediathumb($img, $mode=null, $size=null, $quality=null)
     
     $disk = config('cms.storage.media.disk');
     $disk_folder = config('cms.storage.media.folder');
-    $disk_path = config('cms.storage.media.path');
     
     $original_path = $disk_folder.$img;
     
@@ -109,7 +109,7 @@ function getMediathumb($img, $mode=null, $size=null, $quality=null)
        
     }
 
-    return $disk_path.'/_mediathumbs/'.$new_filename;
+    return MediaLibrary::instance()->getPathUrl('_mediathumbs/'.$new_filename);
 }
 
 
