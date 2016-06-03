@@ -6,3 +6,4 @@
 0.2.2: cs_CZ language added - thanks to Vojta Svoboda
 0.2.3: Hungarian language added and minor typos corrected - thanks to Szabó Gergő
 0.2.4: Added MIT lincence - thanks to Szabó Gergő
+0.2.5: Corrected a bug to make it work in installations of OctoberCMS in a subfolder.
