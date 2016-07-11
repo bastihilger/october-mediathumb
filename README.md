@@ -1,4 +1,4 @@
-# october-mediathumb
+# Thumbnail images for Media
 
 + Twig filter for automatic thumbnail images for your media images.
 + Static PHP helper function for automatic thumbnail images for your media images in your backend files.
@@ -62,6 +62,17 @@ You can of course also use the defaults like so:
 Creates and displays a 200px wide thumbnail image of an landscape image or a 200px high thumbnail image of a portrait image. 
 
 
+##Configuration
+
+### Custom folder name:
+
+The default folder name "_mediathumbs" can be changed (also to a subfolder like "some/sub/folder") in the config/config.php file of the plugin.
+
+
+### Defaults:
+
+The defaults for `mode`, `size` and `quality` can be changed in the config/config.php file of the plugin.
+
 
 ## How does it work:
 
@@ -74,7 +85,7 @@ The plugin uses the filetime and filesize in naming the thumbnail to make sure t
 
 ## Where are the thumbnails stored?
 
-In a "_mediathumbs" (which is created automatically) folder in your storage media folder.
+In a mediathumb folder in your storage media folder (which is created automatically, also see "Custom folder name" above).
 
 ## Does it work with Amazon S3?
 
@@ -82,7 +93,7 @@ Yep.
 
 ## What happens to the thumbnail files once I delete the original?
 
-So far they just stay in the "_mediathumbs" folder. I am working on a solution to have them deleted together with the originals, but remember you can easily empty or delete the mediathumbs folder altogether - the thumbnails will just start being re-created when people hit your website.
+So far they just stay in the mediathumb folder. I am working on a solution to have them deleted together with the originals, but remember you can easily empty or delete the mediathumbs folder altogether - the thumbnails will just start being re-created when people hit your website.
 
 ## Roadmap
 
