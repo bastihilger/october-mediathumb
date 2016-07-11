@@ -1,11 +1,11 @@
 <?php
 
 // Set the default for creating mediathumbs
-
 return [
     'default' => [
-        'mode' => 'auto',
-        'size' => 200,
+        'mode'    => 'auto',
+        'size'    => 200,
         'quality' => 90,
+        'folder'  => '_mediathumbs'
     ]
 ];
