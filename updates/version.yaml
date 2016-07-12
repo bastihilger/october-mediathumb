@@ -8,3 +8,4 @@
 0.2.4: Added MIT lincence - thanks to Szabó Gergő
 0.2.5: Corrected a bug to make it work in installations of OctoberCMS in a subfolder.
 0.3.0: Added option to change mediathumb folder name (including subfolders) in the config file.
+0.3.1: Fixed a bug which made the plugin return an exception when failing to create a thumbnail for unsupported file types.

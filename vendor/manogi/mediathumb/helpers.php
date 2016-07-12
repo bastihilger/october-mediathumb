@@ -85,30 +85,33 @@ function getMediathumb($img, $mode=null, $size=null, $quality=null)
     
     // create the thumb, but only if it does not exist
     if (!Storage::disk($disk)->exists($new_path)) {
-        $image = Image::make($original_file);
-        
-        $final_mode = $mode;
-        if ($mode == 'auto') {
-            $final_mode = 'width';
-            
-            $ratio = $image->width()/$image->height();
-            if ($ratio < 1) {
-                $final_mode = 'height';
+        try {
+            $image = Image::make($original_file);
+            $final_mode = $mode;
+            if ($mode == 'auto') {
+                $final_mode = 'width';
+                
+                $ratio = $image->width()/$image->height();
+                if ($ratio < 1) {
+                    $final_mode = 'height';
+                }
             }
+            if ($final_mode == 'width') {
+                $image->resize($size, null, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            } elseif ($final_mode == 'height') {
+                $image->resize(null, $size, function ($constraint) {
+                    $constraint->aspectRatio();
+                    $constraint->upsize();
+                });
+            }
+            $image_stream = $image->stream($extension, $quality);
+            Storage::disk($disk)->put($new_path, $image_stream->__toString());
+        } catch (Exception $e) {
+            $error = 'Intervention Image Fehler : '.$e->getMessage();
         }
-        if ($final_mode == 'width') {
-            $image->resize($size, null, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        } elseif ($final_mode == 'height') {
-            $image->resize(null, $size, function ($constraint) {
-                $constraint->aspectRatio();
-                $constraint->upsize();
-            });
-        }
-        $image_stream = $image->stream($extension, $quality);
-        Storage::disk($disk)->put($new_path, $image_stream->__toString());
     }
 
     return MediaLibrary::instance()->getPathUrl($custom_folder.'/'.$new_filename);
