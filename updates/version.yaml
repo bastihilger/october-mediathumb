@@ -10,3 +10,4 @@
 0.3.0: Added option to change mediathumb folder name (including subfolders) in the config file.
 0.3.1: Fixed a bug which made the plugin return an exception when failing to create a thumbnail for unsupported file types.
 0.3.2: Making sure the static helper function does not overwrite an existing function (Thanks to Tobias Kündig).
+0.3.3: Fixed syntax error in helper function

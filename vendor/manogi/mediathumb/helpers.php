@@ -121,7 +121,7 @@ if(!function_exists('getMediathumb'))
 
 
 // Alias for getMediathumb()
-if(!function_exists('mediathumbGetThumb')
+if(!function_exists('mediathumbGetThumb'))
 {
     function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null)
     {
