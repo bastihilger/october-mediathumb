@@ -1,0 +1,11 @@
+{
+    "require": {
+        "urodoz/truncate-html": "^1.0",
+        "intervention/image": "^2.3"
+    },
+    "autoload": {
+        "files": [
+            "vendor/manogi/mediathumb/helpers.php"
+        ]
+    }
+}

@@ -1,10 +1,8 @@
 <?php
 
 return [
-     'plugin' => [
-        'name' => 'Mediathumb Plugin',
-        'description' => 'Adds the mediathumb twig filter'
-    ],
-    
-
+    'plugin' => [
+        'name' => 'Mediathumb',
+        'description' => 'Twig filter for automatic thumbnail images for your media images.'
+    ]
 ];

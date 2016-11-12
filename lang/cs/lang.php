@@ -3,6 +3,6 @@
 return [
     'plugin' => [
         'name' => 'Mediathumb',
-        'description' => 'Fügt den mediathumb Twig-Filter hinzu.'
+        'description' => 'Přidává nový Twig filtr mediathumb.'
     ]
 ];
