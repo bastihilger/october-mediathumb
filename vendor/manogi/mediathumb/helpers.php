@@ -8,6 +8,9 @@ if(!function_exists('getMediathumb'))
 {
     function getMediathumb($img, $mode=null, $size=null, $quality=null)
     {
+        $width = null;
+        $height = null;
+
         // return empty String if $img is falsy
         if (!$img) {
             return '';
@@ -16,9 +19,16 @@ if(!function_exists('getMediathumb'))
         if (!$mode) {
             $mode = config('manogi.mediathumb::default.mode');
         }
-        if (!$size) {
+        if ($mode == 'crop') {
+          if (!$size) {
             $size = config('manogi.mediathumb::default.size');
+          } else {
+            $wh = explode('|', $size);
+            $width = (int)$wh[0];
+            $height = (int)$wh[1];
+          }
         }
+
         if (!$quality) {
             $quality = config('manogi.mediathumb::default.quality');
         }
@@ -32,17 +42,17 @@ if(!function_exists('getMediathumb'))
             $img = '/'.$img;
         }
 
-        
+
         $disk = config('cms.storage.media.disk');
         $disk_folder = config('cms.storage.media.folder');
-        
+
         $original_path = $disk_folder.$img;
-        
+
         // return empty String if file does not exist
         if (!Storage::disk($disk)->exists($original_path)) {
             return '';
         }
-        
+
         // get the image as data
         $original_file = Storage::disk($disk)->get($original_path);
 
@@ -73,17 +83,17 @@ if(!function_exists('getMediathumb'))
         $version_string = $mode.'-'.$size.'-'.$quality.'-'.$filesize.'-'.$filetime;
 
         // create the complete new filename and hash the version string to make it shorter
-        $new_filename = $filename_body.'-'.md5($version_string).'.'.$extension;
+        $new_filename = $filename_body.'_'.$mode.'-'.md5($version_string).'.'.$extension;
 
         // define complete path of the new file (without the root path)
         $new_path = $thumb_directory.$new_filename;
 
-        
+
         // create the thumb directory if it does not exist
         if (!Storage::disk($disk)->exists($thumb_directory)) {
             Storage::disk($disk)->makeDirectory($thumb_directory);
         }
-        
+
         // create the thumb, but only if it does not exist
         if (!Storage::disk($disk)->exists($new_path)) {
             try {
@@ -91,7 +101,7 @@ if(!function_exists('getMediathumb'))
                 $final_mode = $mode;
                 if ($mode == 'auto') {
                     $final_mode = 'width';
-                    
+
                     $ratio = $image->width()/$image->height();
                     if ($ratio < 1) {
                         $final_mode = 'height';
@@ -101,6 +111,11 @@ if(!function_exists('getMediathumb'))
                     $image->resize($size, null, function ($constraint) {
                         $constraint->aspectRatio();
                         $constraint->upsize();
+                    });
+                }
+                if ($final_mode == 'crop') {
+                    $image->fit($width, $height, function($constraint) {
+                      $constraint->upsize();
                     });
                 } elseif ($final_mode == 'height') {
                     $image->resize(null, $size, function ($constraint) {
