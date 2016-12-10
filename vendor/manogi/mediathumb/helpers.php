@@ -8,6 +8,7 @@ if(!function_exists('getMediathumb'))
 {
     function getMediathumb($img, $mode=null, $size=null, $quality=null)
     {
+
         // return empty String if $img is falsy
         if (!$img) {
             return '';
@@ -32,7 +33,6 @@ if(!function_exists('getMediathumb'))
             $img = '/'.$img;
         }
 
-        
         $disk = config('cms.storage.media.disk');
         $disk_folder = config('cms.storage.media.folder');
         
@@ -42,12 +42,18 @@ if(!function_exists('getMediathumb'))
         if (!Storage::disk($disk)->exists($original_path)) {
             return '';
         }
+
+       
+
         
         // get the image as data
         $original_file = Storage::disk($disk)->get($original_path);
 
+
+
         // define directory for thumbnail
         $thumb_directory = $disk_folder.'/'.$custom_folder.'/';
+
 
         // make new filename for folder names and filename
         $new_filename = str_replace('/', '-', substr($img, 1));
@@ -60,6 +66,8 @@ if(!function_exists('getMediathumb'))
 
         // get the new filename without extension
         $filename_body = substr($new_filename, 0, $last_dot_position);
+
+
 
         // get filesize and filetime for extending the filename for the purpose of
         // creating a new thumb in case a new file with the same name is uploaded
