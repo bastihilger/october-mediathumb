@@ -1,4 +1,4 @@
-<?php 
+<?php
 namespace manogi\Mediathumb;
 
 use Backend;
@@ -36,7 +36,9 @@ class Plugin extends PluginBase
     }
 
     public function mediathumb_resize($img, $mode = null, $size = null, $quality = null)
-    {   
-        return mediathumbGetThumb($img, $mode, $size, $quality);
+    {
+        return mediathumbResize($img, $mode, $size, $quality, 'media');
     }
+
+   
 }

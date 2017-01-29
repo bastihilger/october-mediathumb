@@ -49,7 +49,7 @@ Creates and displays a 800px wide thumbnail image with a quality of 96, no matte
 
 The static PHP helper function needs the image path as a string as the first argument. You can use it for example when you display a list of items in the backend, using the default `$record` variable you get when using the default OctoberCMS `$this->listRender()` function:
 
-    <img src="<?= getMediathumb($record->image, 'height', 180, 96) ?>">
+    <img src="<?= mediathumbResize($record->image, 'height', 180, 96) ?>">
 
 Creates and displays a 180px high thumbnail image, no matter if the original is a landscape or a portrait image.
 
@@ -57,9 +57,24 @@ While of course `$record->image` might be something else in your case. "image" i
 
 You can of course also use the defaults like so:
 
-    <img src="<?= getMediathumb($record->image) ?>">
+    <img src="<?= mediathumbResize($record->image) ?>">
 
 Creates and displays a 200px wide thumbnail image of an landscape image or a 200px high thumbnail image of a portrait image. 
+
+_until now this function was called `getMediathumb` instead of `mediathumbResize`. This name will still work, I left an alias for it that will stay in there forever ;-)_
+
+
+###Uploads images functionality (for example "featured images" in Blog and Pro Blog):
+
+We made the functionality also available for so called "uploads" - these are for example those images that are uploaded directly when editing a Model instance, like the "featured images" of a blog post in the Blog and Pro Blog plugins. You can use the following with all mediathumb features:
+
+    <img src=" {{ post.featured_images[0]['path']|mediathumb_resize() }}">
+
+and
+
+    <img src="<?= mediathumbResize($post->featured_images[0]['path'], mode, size, quality) ?>">
+
+
 
 
 ##Configuration

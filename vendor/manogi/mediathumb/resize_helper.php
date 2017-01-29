@@ -1,17 +1,31 @@
 <?php
 
 use Intervention\Image\ImageManagerStatic as Image;
-use Cms\Classes\MediaLibrary;
 
 // Get the thumb.
-if(!function_exists('getMediathumb'))
-{
-    function getMediathumb($img, $mode=null, $size=null, $quality=null)
+if (!function_exists('mediathumbResize')) {
+    function mediathumbResize($img, $mode = null, $size = null, $quality = null)
     {
+
+
 
         // return empty String if $img is falsy
         if (!$img) {
             return '';
+        }
+
+        // Add slash at the beginning if omitted
+        if (substr($img, 0, 1) != '/') {
+            $img = '/'.$img;
+        }
+
+        // check $img string to see if resource is actually "uploads", not "media"
+        
+
+        $resource = 'media';
+        $uploads_path = config('cms.storage.uploads.path');
+        if (substr($img, 0, strlen($uploads_path)) == $uploads_path) {
+            $resource = 'uploads';
         }
 
         if (!$mode) {
@@ -26,33 +40,40 @@ if(!function_exists('getMediathumb'))
 
         // get folder inside media directory from config
 
-        $custom_folder = config('manogi.mediathumb::folder');
+        $mediathumb_folder = config('manogi.mediathumb::folder');
 
-        // Add slash at the beginning if omitted
-        if (substr($img, 0, 1) != '/') {
-            $img = '/'.$img;
-        }
+        
 
-        $disk = config('cms.storage.media.disk');
-        $disk_folder = config('cms.storage.media.folder');
+        $disk = config('cms.storage.'.$resource.'.disk');
+        $disk_folder = config('cms.storage.'.$resource.'.folder');
         
         $original_path = $disk_folder.$img;
+       
+        // remove absolute path oarts from uploads specific url
+        if ($resource == 'uploads') {
+            $original_path = str_replace(
+                config('cms.storage.'.$resource.'.path'),
+                '',
+                $img
+            );
+
+            $original_path = $disk_folder.$original_path;
+        }
         
         // return empty String if file does not exist
         if (!Storage::disk($disk)->exists($original_path)) {
             return '';
         }
 
-       
 
-        
+
         // get the image as data
         $original_file = Storage::disk($disk)->get($original_path);
 
 
 
         // define directory for thumbnail
-        $thumb_directory = $disk_folder.'/'.$custom_folder.'/';
+        $thumb_directory = $disk_folder.'/'.$mediathumb_folder.'/';
 
 
         // make new filename for folder names and filename
@@ -70,13 +91,13 @@ if(!function_exists('getMediathumb'))
 
 
         // get filesize and filetime for extending the filename for the purpose of
-        // creating a new thumb in case a new file with the same name is uploaded
+        // creating a new thumb in case a new file with the same name is uploadsed
         // (meaning the orginal file is overwritten)
         $filesize = Storage::disk($disk)->size($original_path);
         $filetime = Storage::disk($disk)->lastModified($original_path);
 
-        // make the string to add to the filname to for 2 purposes:
-        // A) to make sure the that for the SAME image a thumbnail is only generated once
+        // make the string to add to the filename to for 2 purposes:
+        // a) to make sure the that for the SAME image a thumbnail is only generated once
         // b) to make sure that a new thumb is generated if the original is overwritten
         $version_string = $mode.'-'.$size.'-'.$quality.'-'.$filesize.'-'.$filetime;
 
@@ -119,20 +140,29 @@ if(!function_exists('getMediathumb'))
                 $image_stream = $image->stream($extension, $quality);
                 Storage::disk($disk)->put($new_path, $image_stream->__toString());
             } catch (Exception $e) {
-                $error = 'Intervention Image Fehler : '.$e->getMessage();
+                $error = 'Intervention Image Error : '.$e->getMessage();
             }
         }
 
-        return MediaLibrary::instance()->getPathUrl($custom_folder.'/'.$new_filename);
+
+        // return image path
+        return config('cms.storage.'.$resource.'.path').'/'.$mediathumb_folder.'/'.$new_filename;
     }
 }
 
 
-// Alias for getMediathumb()
-if(!function_exists('mediathumbGetThumb'))
-{
-    function mediathumbGetThumb($img, $mode=null, $size=null, $quality=null)
+// Alias for mediathumbResize()
+if (!function_exists('mediathumbGetThumb')) {
+    function mediathumbGetThumb($img, $mode = null, $size = null, $quality = null)
     {
-        return getMediathumb($img, $mode, $size, $quality);
+        return mediathumbResize($img, $mode, $size, $quality);
+    }
+}
+
+// Alias for mediathumbResize()
+if (!function_exists('getMediathumb')) {
+    function getMediathumb($img, $mode = null, $size = null, $quality = null)
+    {
+        return mediathumbResize($img, $mode, $size, $quality);
     }
 }

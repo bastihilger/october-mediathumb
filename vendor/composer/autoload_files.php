@@ -7,5 +7,6 @@ $baseDir = dirname($vendorDir);
 
 return array(
     'a0edc8309cc5e1d60e3047b5df6b7052' => $vendorDir . '/guzzlehttp/psr7/src/functions_include.php',
-    '2cebc9a182b19e9ef3b8d57111b30919' => $vendorDir . '/manogi/mediathumb/helpers.php',
+    'c573a7e5893a138545b4829bb4a11fcc' => $vendorDir . '/manogi/mediathumb/resize_helper.php',
+    '8c2e4b8a291dd1b1937482809d299c4f' => $vendorDir . '/manogi/mediathumb/crop_helper.php',
 );
