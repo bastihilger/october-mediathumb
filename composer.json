@@ -5,8 +5,7 @@
     },
     "autoload": {
         "files": [
-            "vendor/manogi/mediathumb/resize_helper.php",
-            "vendor/manogi/mediathumb/crop_helper.php"
+            "vendor/manogi/mediathumb/resize_helper.php"
         ]
     }
 }

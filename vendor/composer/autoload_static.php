@@ -9,7 +9,6 @@ class ComposerStaticInit6c3de2f9e71443bc1a465e7aa469c6e4
     public static $files = array (
         'a0edc8309cc5e1d60e3047b5df6b7052' => __DIR__ . '/..' . '/guzzlehttp/psr7/src/functions_include.php',
         'c573a7e5893a138545b4829bb4a11fcc' => __DIR__ . '/..' . '/manogi/mediathumb/resize_helper.php',
-        '8c2e4b8a291dd1b1937482809d299c4f' => __DIR__ . '/..' . '/manogi/mediathumb/crop_helper.php',
     );
 
     public static $prefixLengthsPsr4 = array (
