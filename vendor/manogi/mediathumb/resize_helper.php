@@ -15,7 +15,8 @@ if (!function_exists('mediathumbResize')) {
         }
 
         // Add slash at the beginning if omitted
-        if (substr($img, 0, 1) != '/') {
+        if (substr($img, 0, 1) != '/' 
+            && substr($img, 0, 4) != 'http') {
             $img = '/'.$img;
         }
 
@@ -24,9 +25,11 @@ if (!function_exists('mediathumbResize')) {
 
         $resource = 'media';
         $uploads_path = config('cms.storage.uploads.path');
+        
         if (substr($img, 0, strlen($uploads_path)) == $uploads_path) {
             $resource = 'uploads';
         }
+
 
         if (!$mode) {
             $mode = config('manogi.mediathumb::default.mode');
