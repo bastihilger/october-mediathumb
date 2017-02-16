@@ -7,25 +7,23 @@ if (!function_exists('mediathumbResize')) {
     function mediathumbResize($img, $mode = null, $size = null, $quality = null)
     {
 
-
-
         // return empty String if $img is falsy
         if (!$img) {
             return '';
         }
 
         // Add slash at the beginning if omitted
-        if (substr($img, 0, 1) != '/' 
+        if (substr($img, 0, 1) != '/'
             && substr($img, 0, 4) != 'http') {
             $img = '/'.$img;
         }
 
         // check $img string to see if resource is actually "uploads", not "media"
-        
+
 
         $resource = 'media';
         $uploads_path = config('cms.storage.uploads.path');
-        
+
         if (substr($img, 0, strlen($uploads_path)) == $uploads_path) {
             $resource = 'uploads';
         }
@@ -45,13 +43,13 @@ if (!function_exists('mediathumbResize')) {
 
         $mediathumb_folder = config('manogi.mediathumb::folder');
 
-        
+
 
         $disk = config('cms.storage.'.$resource.'.disk');
         $disk_folder = config('cms.storage.'.$resource.'.folder');
-        
+
         $original_path = $disk_folder.$img;
-       
+
         // remove absolute path oarts from uploads specific url
         if ($resource == 'uploads') {
             $original_path = str_replace(
@@ -62,18 +60,14 @@ if (!function_exists('mediathumbResize')) {
 
             $original_path = $disk_folder.$original_path;
         }
-        
+
         // return empty String if file does not exist
         if (!Storage::disk($disk)->exists($original_path)) {
             return '';
         }
 
-
-
         // get the image as data
         $original_file = Storage::disk($disk)->get($original_path);
-
-
 
         // define directory for thumbnail
         $thumb_directory = $disk_folder.'/'.$mediathumb_folder.'/';
@@ -99,10 +93,21 @@ if (!function_exists('mediathumbResize')) {
         $filesize = Storage::disk($disk)->size($original_path);
         $filetime = Storage::disk($disk)->lastModified($original_path);
 
+        // Handle two dimensional sizing
+        $sizeX = 0;
+        $sizeY = 0;
+        $is2D = is_array($size);
+        if($is2D) {
+            list($sizeX, $sizeY) = $size;
+            $sizeStr = "{$sizeX}x{$sizeY}";
+        } else {
+            $sizeStr = (string) $size;
+        }
+
         // make the string to add to the filename to for 2 purposes:
         // a) to make sure the that for the SAME image a thumbnail is only generated once
         // b) to make sure that a new thumb is generated if the original is overwritten
-        $version_string = $mode.'-'.$size.'-'.$quality.'-'.$filesize.'-'.$filetime;
+        $version_string = $mode.'-'.$sizeStr.'-'.$quality.'-'.$filesize.'-'.$filetime;
 
         // create the complete new filename and hash the version string to make it shorter
         $new_filename = $filename_body.'-'.md5($version_string).'.'.$extension;
@@ -110,23 +115,34 @@ if (!function_exists('mediathumbResize')) {
         // define complete path of the new file (without the root path)
         $new_path = $thumb_directory.$new_filename;
 
-        
+
         // create the thumb directory if it does not exist
         if (!Storage::disk($disk)->exists($thumb_directory)) {
             Storage::disk($disk)->makeDirectory($thumb_directory);
         }
-        
+
         // create the thumb, but only if it does not exist
-        if (!Storage::disk($disk)->exists($new_path)) {
+        if (!Storage::disk($disk)->exists($new_path) ) {
             try {
                 $image = Image::make($original_file);
                 $final_mode = $mode;
                 if ($mode == 'auto') {
-                    $final_mode = 'width';
-                    
-                    $ratio = $image->width()/$image->height();
-                    if ($ratio < 1) {
-                        $final_mode = 'height';
+                    if($is2D == true) {
+                        // Resize based on the
+                        if(($image->width() / $sizeX) > ($image->height() / $sizeY)) {
+                            $size = $sizeY;
+                            $final_mode = 'height';
+                        } else {
+                            $size = $sizeX;
+                            $final_mode = 'width';
+                        }
+                    } else {
+                        $final_mode = 'width';
+
+                        $ratio = $image->width() / $image->height();
+                        if ($ratio < 1) {
+                            $final_mode = 'height';
+                        }
                     }
                 }
                 if ($final_mode == 'width') {
