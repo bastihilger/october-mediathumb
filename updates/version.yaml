@@ -14,3 +14,4 @@
 0.4.0: Added functionality for uploads files like featured images in blogposts
 0.4.1: Fixed bug in autoload file
 0.4.2: Fixed bug that made Amazon S3 not working correctly for uploads
+0.4.3: Fixed bug that made Mediathumb not work in OctoberCMS installed in a sub directory using local disk

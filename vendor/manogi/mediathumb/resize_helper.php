@@ -149,7 +149,7 @@ if (!function_exists('mediathumbResize')) {
 
 
         // return image path
-        return config('cms.storage.'.$resource.'.path').'/'.$mediathumb_folder.'/'.$new_filename;
+        return asset(config('cms.storage.'.$resource.'.path').'/'.$mediathumb_folder.'/'.$new_filename);
     }
 }
 
