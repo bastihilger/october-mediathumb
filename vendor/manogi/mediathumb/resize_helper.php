@@ -13,6 +13,11 @@ if (!function_exists('mediathumbResize')) {
         if (!$img) {
             return '';
         }
+        
+        // remove app.url if given
+        if (starts_with($img, config('app.url'))) {
+            $img = str_replace(config('app.url'),'',$img);
+        }
 
         // Add slash at the beginning if omitted
         if (substr($img, 0, 1) != '/' 
