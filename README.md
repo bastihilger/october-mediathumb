@@ -64,7 +64,7 @@ Creates and displays a 200px wide thumbnail image of an landscape image or a 200
 _until now this function was called `getMediathumb` instead of `mediathumbResize`. This name will still work, I left an alias for it that will stay in there forever ;-)_
 
 
-###Uploads images functionality (for example "featured images" in Blog and Pro Blog):
+### Uploads images functionality (for example "featured images" in Blog and Pro Blog):
 
 We made the functionality also available for so called "uploads" - these are for example those images that are uploaded directly when editing a Model instance, like the "featured images" of a blog post in the Blog and Pro Blog plugins. You can use the following with all mediathumb features:
 
@@ -77,7 +77,7 @@ and
 
 
 
-##Configuration
+## Configuration
 
 ### Custom folder name:
 
