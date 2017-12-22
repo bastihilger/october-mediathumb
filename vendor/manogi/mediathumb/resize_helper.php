@@ -6,31 +6,29 @@ use Intervention\Image\ImageManagerStatic as Image;
 if (!function_exists('mediathumbResize')) {
     function mediathumbResize($img, $mode = null, $size = null, $quality = null)
     {
-
-
-
         // return empty String if $img is falsy
         if (!$img) {
             return '';
         }
-        
+
         // remove app.url if given
         if (starts_with($img, config('app.url'))) {
-            $img = str_replace(config('app.url'),'',$img);
+            $img = str_replace(config('app.url'), '', $img);
         }
 
         // Add slash at the beginning if omitted
-        if (substr($img, 0, 1) != '/' 
+        if (substr($img, 0, 1) != '/'
             && substr($img, 0, 4) != 'http') {
             $img = '/'.$img;
         }
 
+
         // check $img string to see if resource is actually "uploads", not "media"
-        
+
 
         $resource = 'media';
         $uploads_path = config('cms.storage.uploads.path');
-        
+
         if (substr($img, 0, strlen($uploads_path)) == $uploads_path) {
             $resource = 'uploads';
         }
@@ -50,13 +48,13 @@ if (!function_exists('mediathumbResize')) {
 
         $mediathumb_folder = config('manogi.mediathumb::folder');
 
-        
+
 
         $disk = config('cms.storage.'.$resource.'.disk');
         $disk_folder = config('cms.storage.'.$resource.'.folder');
-        
+
         $original_path = $disk_folder.$img;
-       
+
         // remove absolute path oarts from uploads specific url
         if ($resource == 'uploads') {
             $original_path = str_replace(
@@ -67,7 +65,7 @@ if (!function_exists('mediathumbResize')) {
 
             $original_path = $disk_folder.$original_path;
         }
-        
+
         // return empty String if file does not exist
         if (!Storage::disk($disk)->exists($original_path)) {
             return '';
@@ -94,7 +92,7 @@ if (!function_exists('mediathumbResize')) {
         $extension = substr($new_filename, $last_dot_position+1);
 
         // get the new filename without extension
-        $filename_body = substr($new_filename, 0, $last_dot_position);
+        $filename_body = str_slug(substr($new_filename, 0, $last_dot_position));
 
 
 
@@ -115,40 +113,45 @@ if (!function_exists('mediathumbResize')) {
         // define complete path of the new file (without the root path)
         $new_path = $thumb_directory.$new_filename;
 
-        
+
         // create the thumb directory if it does not exist
         if (!Storage::disk($disk)->exists($thumb_directory)) {
             Storage::disk($disk)->makeDirectory($thumb_directory);
         }
-        
+
         // create the thumb, but only if it does not exist
         if (!Storage::disk($disk)->exists($new_path)) {
-            try {
-                $image = Image::make($original_file);
-                $final_mode = $mode;
-                if ($mode == 'auto') {
-                    $final_mode = 'width';
-                    
-                    $ratio = $image->width()/$image->height();
-                    if ($ratio < 1) {
-                        $final_mode = 'height';
+            if ($extension == 'gif') {
+                Storage::disk($disk)->put($new_path, $original_file);
+            } else {
+                try {
+                    $image = Image::make($original_file);
+                    $final_mode = $mode;
+                    if ($mode == 'auto') {
+                        $final_mode = 'width';
+
+                        $ratio = $image->width()/$image->height();
+                        if ($ratio < 1) {
+                            $final_mode = 'height';
+                        }
                     }
+                    if ($final_mode == 'width') {
+                        $image->resize($size, null, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    } elseif ($final_mode == 'height') {
+                        $image->resize(null, $size, function ($constraint) {
+                            $constraint->aspectRatio();
+                            $constraint->upsize();
+                        });
+                    }
+
+                    $image_stream = $image->stream($extension, $quality);
+                    Storage::disk($disk)->put($new_path, $image_stream->__toString());
+                } catch (Exception $e) {
+                    $error = 'Intervention Image Error : '.$e->getMessage();
                 }
-                if ($final_mode == 'width') {
-                    $image->resize($size, null, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                } elseif ($final_mode == 'height') {
-                    $image->resize(null, $size, function ($constraint) {
-                        $constraint->aspectRatio();
-                        $constraint->upsize();
-                    });
-                }
-                $image_stream = $image->stream($extension, $quality);
-                Storage::disk($disk)->put($new_path, $image_stream->__toString());
-            } catch (Exception $e) {
-                $error = 'Intervention Image Error : '.$e->getMessage();
             }
         }
 

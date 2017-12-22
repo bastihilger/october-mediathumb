@@ -16,3 +16,4 @@
 0.4.2: Fixed bug that made Amazon S3 not working correctly for uploads
 0.4.3: Fixed bug that made Mediathumb not work in OctoberCMS installed in a sub directory using local disk
 0.4.4: Fix for octobercms breaking change
+0.4.5: Slugify the thumb filename, copy Gifs without resizing (because animated gifs)
