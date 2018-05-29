@@ -138,6 +138,15 @@ if (!function_exists('mediathumbResize')) {
                 try {
                     $image = Image::make($original_file);
                     $final_mode = $mode;
+                    
+                    if ($mode == 'crop') {
+                        if (!$sizeX || !$sizeY) {
+                            $mode = 'auto';
+                        } else {
+                            $image->fit($sizeX, $sizeY);
+                        }
+                    }
+                
                     if ($mode == 'auto') {
                         $final_mode = 'width';
 
