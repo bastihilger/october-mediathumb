@@ -22,17 +22,13 @@ if (!function_exists('mediathumbResize')) {
             $img = '/'.$img;
         }
 
-
         // check $img string to see if resource is actually "uploads", not "media"
-
-
         $resource = 'media';
         $uploads_path = config('cms.storage.uploads.path');
 
         if (substr($img, 0, strlen($uploads_path)) == $uploads_path) {
             $resource = 'uploads';
         }
-
 
         if (!$mode) {
             $mode = config('manogi.mediathumb::default.mode');
@@ -47,8 +43,6 @@ if (!function_exists('mediathumbResize')) {
         // get folder inside media directory from config
 
         $mediathumb_folder = config('manogi.mediathumb::folder');
-
-
 
         $disk = config('cms.storage.'.$resource.'.disk');
         $disk_folder = config('cms.storage.'.$resource.'.folder');
@@ -71,16 +65,11 @@ if (!function_exists('mediathumbResize')) {
             return '';
         }
 
-
-
         // get the image as data
         $original_file = Storage::disk($disk)->get($original_path);
 
-
-
         // define directory for thumbnail
         $thumb_directory = $disk_folder.'/'.$mediathumb_folder.'/';
-
 
         // make new filename for folder names and filename
         $new_filename = str_replace('/', '-', substr($img, 1));
@@ -93,8 +82,6 @@ if (!function_exists('mediathumbResize')) {
 
         // get the new filename without extension
         $filename_body = str_slug(substr($new_filename, 0, $last_dot_position));
-
-
 
         // get filesize and filetime for extending the filename for the purpose of
         // creating a new thumb in case a new file with the same name is uploadsed
@@ -123,7 +110,6 @@ if (!function_exists('mediathumbResize')) {
 
         // define complete path of the new file (without the root path)
         $new_path = $thumb_directory.$new_filename;
-
 
         // create the thumb directory if it does not exist
         if (!Storage::disk($disk)->exists($thumb_directory)) {
@@ -164,6 +150,7 @@ if (!function_exists('mediathumbResize')) {
                             }
                         }
                     }
+
                     if ($final_mode == 'width') {
                         $image->resize($size, null, function ($constraint) {
                             $constraint->aspectRatio();
@@ -184,12 +171,10 @@ if (!function_exists('mediathumbResize')) {
             }
         }
 
-
         // return image path
         return asset(config('cms.storage.'.$resource.'.path').'/'.$mediathumb_folder.'/'.$new_filename);
     }
 }
-
 
 // Alias for mediathumbResize()
 if (!function_exists('mediathumbGetThumb')) {
