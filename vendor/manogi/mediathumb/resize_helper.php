@@ -102,10 +102,21 @@ if (!function_exists('mediathumbResize')) {
         $filesize = Storage::disk($disk)->size($original_path);
         $filetime = Storage::disk($disk)->lastModified($original_path);
 
+        $sizeX = 0;
+        $sizeY = 0;
+        $is2d = is_array($size);
+
+        if ($is2d) {
+            list($sizeX, $sizeY) = $size;
+            $sizeStr = "{$sizeX}x{$sizeY}";
+        } else {
+            $sizeStr = (string)$size;
+        }
+
         // make the string to add to the filename to for 2 purposes:
         // a) to make sure the that for the SAME image a thumbnail is only generated once
         // b) to make sure that a new thumb is generated if the original is overwritten
-        $version_string = $mode.'-'.$size.'-'.$quality.'-'.$filesize.'-'.$filetime;
+        $version_string = $mode.'-'.$sizeStr.'-'.$quality.'-'.$filesize.'-'.$filetime;
 
         // create the complete new filename and hash the version string to make it shorter
         $new_filename = $filename_body.'-'.md5($version_string).'.'.$extension;
