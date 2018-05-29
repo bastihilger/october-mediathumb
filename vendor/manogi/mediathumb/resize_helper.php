@@ -148,11 +148,20 @@ if (!function_exists('mediathumbResize')) {
                     }
                 
                     if ($mode == 'auto') {
-                        $final_mode = 'width';
-
-                        $ratio = $image->width()/$image->height();
-                        if ($ratio < 1) {
-                            $final_mode = 'height';
+                        if ($is2d == true) {
+                            if (($image->width() / $sizeX) > ($image->height() / $sizeY)) {
+                                $size = $sizeY;
+                                $final_mode = 'height';
+                            } else {
+                                $size = $sizeX;
+                                $final_mode = 'width';
+                            }
+                        } else {
+                            $final_mode = 'width';
+                            $ratio = $image->width()/$image->height();
+                            if ($ratio < 1) {
+                                $final_mode = 'height';
+                            }
                         }
                     }
                     if ($final_mode == 'width') {
