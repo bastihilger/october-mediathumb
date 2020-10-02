@@ -1,3 +1,5 @@
+# THIS REPOSITORY IS ABANDONED! PLEASE USE AN ALTERNATIVE!
+
 # Thumbnail images for Media
 
 + Twig filter for automatic thumbnail images for your media images.
